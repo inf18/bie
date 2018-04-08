@@ -1,0 +1,28 @@
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+
+public class cetak {
+    public cetak(String nama, String param){
+        String reportName=System.getProperty("user.dir") + "./src/laporan/report1.jasper";
+         try{
+            HashMap parameter = new HashMap();
+            parameter.put("jual", param);
+            
+            koneksi konek=new koneksi();
+            Connection con=konek.getConnection();
+         
+            File file = new File(nama);
+            JasperReport jasperReport=(JasperReport)JRLoader.loadObject(file);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, con);
+            JasperViewer.viewReport(jasperPrint,false);
+ }catch(Exception ex){
+            System.out.println(ex);
+ }
+    }
+}
